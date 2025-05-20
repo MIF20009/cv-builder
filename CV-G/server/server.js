@@ -13,8 +13,12 @@ sequelize.sync({ alter: true })  // Use `force: true` only for development to DR
   .then(() => console.log('✅ MySQL synced with Sequelize'))
   .catch(err => console.error('❌ Sync error:', err));
 
-
-app.use(cors())
+const corsOptions = {
+  origin: 'https://buildmycv.student-x.com', // Replace with your actual frontend URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // If you need to include credentials
+};
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // Routes
