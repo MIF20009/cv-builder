@@ -10,8 +10,5 @@
     "mysql2": "^3.14.1",
     "openai": "^4.97.0",
     "sequelize": "^6.37.7"
-  },
-  "scripts": {
-    "postinstall": "puppeteer install --browser chrome"
   }
 }
