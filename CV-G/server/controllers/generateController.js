@@ -1,5 +1,7 @@
 const { OpenAI } = require('openai');
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
+const pdf = require('html-pdf-node');
+
 require('dotenv').config();
 
 const openai = new OpenAI({
@@ -229,15 +231,18 @@ ${userInfo}
     `;
 
     // const browser = await puppeteer.launch({ headless: 'new' });
-    const browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: require('puppeteer').executablePath(), // 👈 Force using bundled Chromium
-    });
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-    const pdfBuffer = await page.pdf({ format: 'A4', printBackground: false });
-    await browser.close();
+    // const browser = await puppeteer.launch({
+    //   headless: 'new',
+    //   args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    //   executablePath: require('puppeteer').executablePath(), // 👈 Force using bundled Chromium
+    // });
+    // const page = await browser.newPage();
+    // await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    // const pdfBuffer = await page.pdf({ format: 'A4', printBackground: false });
+    // await browser.close();
+    const file = { content: htmlContent };
+    const pdfBuffer = await pdf.generatePdf(file, { format: 'A4' });
+
 
     res.set({
       'Content-Type': 'application/pdf',
