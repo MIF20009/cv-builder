@@ -231,7 +231,8 @@ ${userInfo}
     // const browser = await puppeteer.launch({ headless: 'new' });
     const browser = await puppeteer.launch({
       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: require('puppeteer').executablePath(), // 👈 Force using bundled Chromium
     });
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
