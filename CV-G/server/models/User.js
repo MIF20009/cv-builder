@@ -32,7 +32,10 @@ const User = sequelize.define('User', {
   skills: DataTypes.TEXT,
   github: DataTypes.STRING(200),
   linkedin: DataTypes.STRING(200),
-  cv_url: DataTypes.STRING(500)
+  cv_url: DataTypes.STRING(500),
+}, {
+   timestamps: true,
+   tableName : 'Users',
 });
 
 module.exports = { User };
