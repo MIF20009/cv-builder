@@ -165,10 +165,10 @@ const CVForm = () => {
     {
       title: 'Personal Info',
       fields: [
-        { label: 'Full Name', name: 'name', type: 'text', placeholder: 'Sarah Johnson' },
-        { label: 'Email', name: 'email', type: 'email', placeholder: 'sarah@example.com' },
-        { label: 'Phone', name: 'phone', type: 'text', placeholder: '+1 234 567 8901' },
-        { label: 'Location', name: 'location', type: 'text', placeholder: 'Austin, TX' },
+        { label: 'Full Name', name: 'name', type: 'text', placeholder: 'Jamal Habib' },
+        { label: 'Email', name: 'email', type: 'email', placeholder: 'Jamal@example.com' },
+        { label: 'Phone', name: 'phone', type: 'text', placeholder: '+961 71 234 567' },
+        { label: 'Location', name: 'location', type: 'text', placeholder: 'Beirut, Lebanon' },
         { label: 'GitHub URL', name: 'github', type: 'text', placeholder: 'https://github.com/yourusername' },
         { label: 'LinkedIn URL', name: 'linkedin', type: 'text', placeholder: 'https://linkedin.com/in/yourusername' }
       ]
@@ -222,7 +222,7 @@ const CVForm = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/generate',
+        'https://cv-builder-3mpf.onrender.com/api/generate',
         formData,
         { responseType: 'blob' }
       );
