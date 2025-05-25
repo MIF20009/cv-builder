@@ -9,12 +9,12 @@ const signup = async (req , res) => {
     if (!name || !email || !password){
         return res.status(400).json({error: 'All fields are required.'})
     }
-    const existingUser = User.findOne({where: {email}})
-    if(existingUser){
-        return res.status(400).json({ error: 'Email already registered.' });
-    }
-    const hashedPass = await bcrypt.hash(password, 10);
     try{
+        const existingUser = await User.findOne({where: {email}})
+        if(existingUser){
+            return res.status(400).json({ error: 'Email already registered.' });
+        }
+        const hashedPass = await bcrypt.hash(password, 10);
         await User.create({
             name: name,
             email: email,

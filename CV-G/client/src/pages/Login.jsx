@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,25 +13,21 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await fetch('https://cv-builder-3mpf.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const res = await axios.post('https://cv-builder-3mpf.onrender.com/api/auth/login', {
+        email,
+        password
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || 'Login failed');
-        return;
-      }
-
-      // Save JWT token
-      localStorage.setItem('token', data.token);
-      navigate('/dashboard'); // or any route you want after login
+      // Save token
+      localStorage.setItem('token', res.data.token);
+      navigate('/dashboard');
     } catch (err) {
-      setError('Something went wrong. Try again.');
       console.error(err);
+      if (err.response && err.response.data) {
+        setError(err.response.data.error || 'Login failed');
+      } else {
+        setError('Something went wrong. Try again.');
+      }
     }
   };
 

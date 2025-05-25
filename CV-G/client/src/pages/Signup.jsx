@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -13,23 +14,21 @@ const Signup = () => {
     setError('');
 
     try {
-      const res = await fetch('https://cv-builder-3mpf.onrender.com/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+      const res = await axios.post('https://cv-builder-3mpf.onrender.com/api/auth/signup', {
+        name,
+        email,
+        password
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || 'Signup failed');
-        return;
-      }
-
-      navigate('/login'); // Go to login page after successful signup
+      // If successful, redirect to login
+      navigate('/login');
     } catch (err) {
-      setError('Something went wrong. Try again.');
       console.error(err);
+      if (err.response && err.response.data) {
+        setError(err.response.data.error || 'Signup failed');
+      } else {
+        setError('Something went wrong. Try again.');
+      }
     }
   };
 
