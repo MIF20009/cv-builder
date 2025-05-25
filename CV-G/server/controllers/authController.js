@@ -38,7 +38,7 @@ const login = async(req, res) => {
         if(!validPassword){
             return res.status(400).json({error: 'Invalid email or password.'});
         }
-        const token = jwt.sign({id: user.id}, JWT_SECRET, {expiresIn: '1h'} );
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'} );
 
         res.status(200).json({
         message: 'Login successful.',
@@ -49,7 +49,7 @@ const login = async(req, res) => {
         console.error("[login] unexpected error:", error);
         return res
         .status(500)
-        .json({ error: "Failed to log in.", details: err.message });
+        .json({ error: "Failed to log in.", details: error.message });
     }
 };
 
