@@ -34,7 +34,7 @@ const login = async(req, res) => {
         if(!user){
             return res.status(400).json({error: 'Invalid email or password.'});
         }
-        const validPassword = bcrypt.compare(password, user.password);
+        const validPassword = await bcrypt.compare(password, user.password);
         if(!validPassword){
             return res.status(400).json({error: 'Invalid email or password.'});
         }
@@ -46,7 +46,7 @@ const login = async(req, res) => {
         user: { id: user.id, email: user.email }
         });
     } catch (error) {
-        console.error("[login] unexpected error:", err);
+        console.error("[login] unexpected error:", error);
         return res
         .status(500)
         .json({ error: "Failed to log in.", details: err.message });
