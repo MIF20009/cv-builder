@@ -1,7 +1,17 @@
-import React from 'react'
-import CVForm from '../components/CVForm'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CVForm from '../components/CVForm';
 
 const GenerateCV = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); // Redirect to login if no token
+    }
+  }, [navigate]);
+
   return (
     <div className="min-h-screen">
       <div className="py-10">
@@ -9,7 +19,7 @@ const GenerateCV = () => {
         <CVForm />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GenerateCV
+export default GenerateCV;
