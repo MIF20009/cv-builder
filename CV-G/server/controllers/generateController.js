@@ -5,7 +5,8 @@ const pdf = require('html-pdf-node');
 require('dotenv').config();
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  // apiKey: process.env.OPENAI_API_KEY
+  apiKey: "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"
 });
 
 exports.generateCV = async (req, res) => {
