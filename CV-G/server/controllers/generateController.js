@@ -13,7 +13,7 @@ require('dotenv').config();
 
 const openai = new OpenAI({
   // apiKey: process.env.OPENAI_API_KEY
-  apiKey: "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"
+  apiKey: "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"
 });
 
 exports.generateCV = async (req, res) => {
@@ -145,7 +145,7 @@ ${userInfo}
 `;
 
     const aiResponse = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o',
       messages: [
         { role: 'system', content: 'You write structured, professional CVs with layout and intelligent formatting.' },
         { role: 'user', content: prompt }
@@ -308,7 +308,7 @@ ${userInfo}
       'Content-Disposition': 'attachment; filename=cv.pdf'
     });
     res.send(pdfBuffer);
-
+    
   } catch (err) {
     console.error('❌ Error generating CV:', err);
     res.status(500).json({ message: 'Failed to generate CV' });
