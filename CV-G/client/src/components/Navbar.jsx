@@ -109,7 +109,7 @@ const Navbar = () => {
       {/* Navbar Center (Brand) */}
       <div className="navbar-center">
         <Link to="/" className="btn btn-ghost text-xl font-bold tracking-wide">
-          Student-X | CV Builder
+          AI CV Builder
         </Link>
       </div>
 

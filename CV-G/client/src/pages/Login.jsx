@@ -20,7 +20,7 @@ const Login = () => {
 
       // Save token
       localStorage.setItem('token', res.data.token);
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       console.error(err);
       if (err.response && err.response.data) {

@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import GenerateCV from './pages/GenerateCV'
 import About from './pages/About' 
+import Dashboard from './pages/Dashboard'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/generate" element={<GenerateCV />} />
         <Route path="/about" element={<About />} /> 
+        <Route path="/dashboard" element={<Dashboard />} /> 
       </Route>
     </Routes>
   )
