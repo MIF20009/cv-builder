@@ -40,6 +40,10 @@ const Dashboard = () => {
           <div>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">Personal Info</h3>
             <p className="text-gray-600"><span className="font-medium">Email:</span> {data.user.email}</p>
+            <p className="text-gray-600"><span className="font-medium">Location:</span> {data.user.location}</p>
+            <p className="text-gray-600"><span className="font-medium">Phone Number:</span> {data.user.phone}</p>
+            <p className="text-gray-600"><span className="font-medium">Linkedin:</span> {data.user.linkedin}</p>
+            <p className="text-gray-600"><span className="font-medium">GitHub:</span> {data.user.github}</p>
           </div>
 
           {/* Education */}
