@@ -6,9 +6,9 @@ const getUserDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const user = await User.findById(userId).select('-password');
-    const education = await Education.find({ user: userId });
-    const experience = await Experience.find({ user: userId });
+    const user = await User.findByPk(userId, { attributes: { exclude: ['password'] }});
+    const education = await Education.findAll({ where: { userId } });
+    const experience = await Experience.findAll({ where: { userId } });
 
     if (!user) return res.status(404).json({ message: 'User not found' });
 
