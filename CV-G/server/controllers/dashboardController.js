@@ -1,3 +1,7 @@
+const {User} = require('../models/User'); // assuming Mongoose model
+const {Education} = require('../models/Education');
+const {Experience} = require('../models/Experience');
+
 const getUserDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -20,3 +24,7 @@ const getUserDashboard = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
+
+
+module.exports = { getUserDashboard };
