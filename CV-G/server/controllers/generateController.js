@@ -16,6 +16,9 @@ const openai = new OpenAI({
 });
 
 exports.generateCV = async (req, res) => {
+  
+  console.log("📥 Received request to generate CV");
+
   try {
     const {
       name, email, phone, location, github, linkedin,
@@ -23,22 +26,27 @@ exports.generateCV = async (req, res) => {
     } = req.body;
 
     const userId = req.user?.id;
+    console.log("👤 Authenticated user ID:", userId);
 
     if (!userId) {
+      console.warn("⚠️ Unauthorized request, no user ID.");
       return res.status(401).json({ message: 'Unauthorized. Please login.' });
     }
 
     // 1. Update user profile with new data
+    console.log("📝 Updating user info...");
     await User.update(
       { phone, location, github, linkedin, skills },
       { where: { id: userId } }
     );
 
     // 2. Clear old education/experience records for this user
+    console.log("🧹 Deleting old education and experience...");
     await Education.destroy({ where: { user_id: userId } });
     await Experience.destroy({ where: { user_id: userId } });
 
     // 3. Insert new education records
+    console.log("🎓 Inserting education...");
     for (const edu of educations) {
       await Education.create({
         university: edu.university,
@@ -49,6 +57,7 @@ exports.generateCV = async (req, res) => {
     }
 
     // 4. Insert new experience records
+    console.log("💼 Inserting experience...");
     for (const exp of experiences) {
       await Experience.create({
         company: exp.company,
@@ -60,6 +69,7 @@ exports.generateCV = async (req, res) => {
     }
 
     // Base info
+    console.log("🧠 Constructing AI prompt...");
     let userInfo = `Name: ${name}\nEmail: ${email}`;
     if (phone) userInfo += `\nPhone: ${phone}`;
     if (location) userInfo += `\nLocation: ${location}`;
@@ -142,7 +152,7 @@ Only use information the user gives.
 User Data:
 ${userInfo}
 `;
-
+    console.log("🤖 Sending prompt to OpenAI...");
     const aiResponse = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
@@ -152,10 +162,12 @@ ${userInfo}
       temperature: 0.5,
       max_tokens: 1000
     });
+    console.log("✅ Received response from OpenAI");
 
     let cvText = aiResponse.choices[0].message.content.trim();
     cvText = cvText.replace(/```[\s\S]*?```/g, '').replace(/\n{3,}/g, '\n\n').trim();
 
+    console.log("✂️ Extracting sections from response...");
     const extractSection = (label, until) => {
       if (!cvText.includes(label)) return '';
       const start = cvText.split(label)[1];
@@ -182,6 +194,7 @@ ${userInfo}
       }).join('');
     };
 
+    console.log("🧾 Generating HTML content...");
     const htmlContent = `
       <html>
         <head>
@@ -268,11 +281,13 @@ ${userInfo}
       </html>
     `;
 
+    console.log("📄 Creating PDF...");
     const file = { content: htmlContent };
     const pdfBuffer = await pdf.generatePdf(file, { format: 'A4' });
 
     const fileName = `cv-${userId}-${Date.now()}.pdf`;
     const bucketName = 'cv-files'; // create this bucket in Supabase Storage
+    console.log(`🚀 Uploading ${fileName} to Supabase bucket ${bucketName}...`);
 
     // Upload to Supabase
     const { data, error: uploadError } = await supabase
@@ -295,13 +310,16 @@ ${userInfo}
       .getPublicUrl(fileName);
 
     const cvUrl = publicURLData?.publicUrl;
+    console.log("🌐 Public URL:", cvUrl);
 
     // Update user's cv_url
+    console.log("🔗 Updating user CV URL in database...");
     await User.update(
       { cv_url: cvUrl },
       { where: { id: userId } }
     );
 
+    console.log("📦 Sending PDF back to client...");
     res.set({
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename=cv.pdf'
@@ -310,7 +328,7 @@ ${userInfo}
     
   } catch (err) {
     console.error('❌ Error generating CV:', err);
-    res.status(500).json({ message: 'Failed to generate CV' });
+    res.status(500).json({ message: 'Failed to generate CV', error: err.message });
   }
 };
 
