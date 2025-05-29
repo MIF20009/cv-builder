@@ -1,6 +1,6 @@
-const User = require('../models/User'); // assuming Mongoose model
-const Education = require('../models/Education');
-const Experience = require('../models/Experience');
+const {User} = require('../models/User'); // assuming Mongoose model
+const {Education} = require('../models/Education');
+const {Experience} = require('../models/Experience');
 
 const getUserDashboard = async (req, res) => {
   try {
