@@ -145,7 +145,7 @@ ${userInfo}
 `;
 
     const aiResponse = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-3.5-turbo',
       messages: [
         { role: 'system', content: 'You write structured, professional CVs with layout and intelligent formatting.' },
         { role: 'user', content: prompt }
