@@ -12,8 +12,7 @@ const path = require('path');
 require('dotenv').config();
 
 const openai = new OpenAI({
-  // apiKey: process.env.OPENAI_API_KEY
-  apiKey: "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"
+   apiKey: process.env.OPENAI_API_KEY
 });
 
 exports.generateCV = async (req, res) => {
