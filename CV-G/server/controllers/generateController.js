@@ -13,7 +13,7 @@ require('dotenv').config();
 
 const openai = new OpenAI({
   // apiKey: process.env.OPENAI_API_KEY
-  apiKey: "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"
+  apiKey: "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"
 });
 
 exports.generateCV = async (req, res) => {
@@ -308,7 +308,7 @@ ${userInfo}
       'Content-Disposition': 'attachment; filename=cv.pdf'
     });
     res.send(pdfBuffer);
-    
+
   } catch (err) {
     console.error('❌ Error generating CV:', err);
     res.status(500).json({ message: 'Failed to generate CV' });
