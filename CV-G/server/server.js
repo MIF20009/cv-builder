@@ -20,6 +20,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use('/api/dashboard', require('./routes/dashboard'));
 
 // Routes
 const authRoutes = require('./routes/auth') // keep or comment if unused
