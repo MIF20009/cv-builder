@@ -119,7 +119,7 @@ Split the output into:
 Use this structure:
 
 Full Name: [name]  
-Title: Computer Science Graduate  
+Title: [Degree or Major] Graduate  
 
 Contact:  
 - Email: [...]  
